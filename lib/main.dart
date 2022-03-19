@@ -4,7 +4,7 @@ import 'cart_holder.dart';
 import 'package:provider/provider.dart';
 
 import 'login_state.dart';
-import 'ui/login.dart';
+import 'router/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,19 +31,22 @@ class MyApp extends StatelessWidget {
           lazy: false,
           create: (BuildContext createContext) => loginState,
         ),
-        // TODO: Add Provider
+        Provider(
+          lazy: false,
+          create: (BuildContext createContext) => AppRouter(loginState),
+        ),
       ],
       child: Builder(
         builder: (BuildContext context) {
-          // TODO: Add Router
-          return MaterialApp(
+          final router = Provider.of<AppRouter>(context, listen: false).router;
+          return MaterialApp.router(
+            routeInformationParser: router.routeInformationParser,
+            routerDelegate: router.routerDelegate,
             debugShowCheckedModeBanner: false,
             title: 'Navigation App',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            // TODO: Remove
-            home: const Login(),
           );
         },
       ),

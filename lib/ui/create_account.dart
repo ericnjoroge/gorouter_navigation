@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 import '../constants.dart';
 import '../login_state.dart';
@@ -111,7 +112,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           ),
                         ),
                         onPressed: () {
-                          // TODO: Add Login Route
+                          context.goNamed(loginRouteName);
                         },
                         child: const Text('Cancel'),
                       ),
