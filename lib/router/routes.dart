@@ -21,8 +21,32 @@ class AppRouter {
     refreshListenable: loginState,
     debugLogDiagnostics: true,
     urlPathStrategy: UrlPathStrategy.path,
-    routes: [],
-    //TODO: Add Error Handler
+    routes: [
+      GoRoute(
+        name: rootRouteName,
+        path: '/',
+        redirect: (state) =>
+            //TODO: Change to Home Route
+            state.namedLocation(loginRouteName),
+      ),
+      GoRoute(
+        name: loginRouteName,
+        path: '/login',
+        pageBuilder: (context, state) =>
+            MaterialPage<void>(key: state.pageKey, child: const Login()),
+      ),
+      GoRoute(
+        name: createAccountRouteName,
+        path: '/create-account',
+        pageBuilder: (context, state) =>
+            MaterialPage(key: state.pageKey, child: const CreateAccount()),
+      ),
+      //TODO: Add Home Route annd Children
+    ],
+    errorPageBuilder: (context, state) => MaterialPage(
+      key: state.pageKey,
+      child: ErrorPage(error: state.error),
+    ),
     //TODO: Add redirect
   );
 }
