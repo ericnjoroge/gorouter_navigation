@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'cart.dart';
 import 'profile.dart';
 import 'shopping.dart';
@@ -65,7 +67,17 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
-            // TODO: Add Switch
+            switch (index) {
+              case 0:
+                context.go('/shop');
+                break;
+              case 1:
+                context.go('/cart');
+                break;
+              case 2:
+                context.go('/profile');
+                break;
+            }
           });
         },
       ),

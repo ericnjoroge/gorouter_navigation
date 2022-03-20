@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../cart_holder.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+
+import '../cart_holder.dart';
+import '../constants.dart';
 
 class Details extends StatelessWidget {
   final String description;
@@ -41,8 +44,8 @@ class Details extends StatelessWidget {
               onPressed: () {
                 Provider.of<CartHolder>(context, listen: false)
                     .addItem(description);
-		    // TODO: Add Root Route
-               },
+                context.goNamed(rootRouteName);
+              },
               child: const Text(
                 'Add To Cart',
                 style: TextStyle(color: Colors.white),

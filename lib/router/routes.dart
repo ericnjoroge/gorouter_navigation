@@ -26,8 +26,7 @@ class AppRouter {
         name: rootRouteName,
         path: '/',
         redirect: (state) =>
-            //TODO: Change to Home Route
-            state.namedLocation(loginRouteName),
+            state.namedLocation(homeRouteName, params: {'tab': 'shop'}),
       ),
       GoRoute(
         name: loginRouteName,
@@ -41,7 +40,110 @@ class AppRouter {
         pageBuilder: (context, state) =>
             MaterialPage(key: state.pageKey, child: const CreateAccount()),
       ),
-      //TODO: Add Home Route annd Children
+      GoRoute(
+        name: homeRouteName,
+        path: '/home/:tab(shop|cart|profile)',
+        pageBuilder: (context, state) {
+          final tab = state.params['tab']!;
+          return MaterialPage<void>(
+            key: state.pageKey,
+            child: HomeScreen(tab: tab),
+          );
+        },
+        routes: [
+          GoRoute(
+            name: subDetailsRouteName,
+            path: 'details/:item',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: Details(description: state.params['item']!),
+            ),
+          ),
+          GoRoute(
+            name: profilePersonalRouteName,
+            path: 'personal',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const PersonalInfo(),
+            ),
+          ),
+          GoRoute(
+            name: profilePaymentRouteName,
+            path: 'payment',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const Payment(),
+            ),
+          ),
+          GoRoute(
+            name: profileSigninInfoRouteName,
+            path: 'signin-info',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const SigninInfo(),
+            ),
+          ),
+          GoRoute(
+            name: profileMoreInfoRouteName,
+            path: 'more-info',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const MoreInfo(),
+            ),
+          )
+        ],
+      ),
+      GoRoute(
+        path: '/shop',
+        redirect: (state) =>
+            state.namedLocation(homeRouteName, params: {'tab': 'shop'}),
+      ),
+      GoRoute(
+        path: '/cart',
+        redirect: (state) =>
+            state.namedLocation(homeRouteName, params: {'tab': 'cart'}),
+      ),
+      GoRoute(
+        path: '/profile',
+        redirect: (state) =>
+            state.namedLocation(homeRouteName, params: {'tab': 'profile'}),
+      ),
+      GoRoute(
+        name: detailsRouteName,
+        path: '/details-redirector/:item',
+        redirect: (state) => state.namedLocation(subDetailsRouteName,
+            params: {'tab': 'shop', 'item': state.params['item']!}),
+      ),
+      GoRoute(
+        name: personalRouteName,
+        path: '/profile-personal',
+        redirect: (state) => state.namedLocation(profilePersonalRouteName,
+            params: {'tab': 'profile'}),
+      ),
+      GoRoute(
+        name: paymentRouteName,
+        path: '/profile-payment',
+        redirect: (state) => state.namedLocation(
+          profilePaymentRouteName,
+          params: {'tab': 'profile'},
+        ),
+      ),
+      GoRoute(
+        name: signinInfoRouteName,
+        path: '/profile-signin-info',
+        redirect: (state) => state.namedLocation(
+          profileSigninInfoRouteName,
+          params: {'tab': 'profile'},
+        ),
+      ),
+      GoRoute(
+        name: moreInfoRouteName,
+        path: '/profile-more-info',
+        redirect: (state) => state.namedLocation(
+          profileMoreInfoRouteName,
+          params: {'tab': 'profile'},
+        ),
+      ),
     ],
     errorPageBuilder: (context, state) => MaterialPage(
       key: state.pageKey,
