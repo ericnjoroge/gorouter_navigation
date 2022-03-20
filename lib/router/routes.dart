@@ -47,6 +47,20 @@ class AppRouter {
       key: state.pageKey,
       child: ErrorPage(error: state.error),
     ),
-    //TODO: Add redirect
+    //redirect to the login page if the user is not logged in
+    redirect: (state) {
+      final loginLoc = state.namedLocation(loginRouteName);
+      final loggingIn = state.subloc == loginLoc;
+
+      final createAccountLoc = state.namedLocation(createAccountRouteName);
+      final creatingAccount = state.subloc == createAccountLoc;
+
+      final loggedIn = loginState.loggedIn;
+      final rootLoc = state.namedLocation(rootRouteName);
+
+      if (!loggedIn && !loggingIn && !creatingAccount) return loginLoc;
+      if (loggedIn && (loggingIn || creatingAccount)) return rootLoc;
+      return null;
+    },
   );
 }
